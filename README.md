@@ -1,2 +1,39 @@
 # Control_system_design
-Python for control system design &amp; C for experiments
+
+制御系設計用Pythonコードと実験用のESP32のコードです。
+
+# 使い方
+
+## Control_design
+
+制御系設計に使用してください。
+
+### Control_System_design.py
+
+シミュレーション条件と状態方程式、非線形システムを、任意のシステムのものに書き換えてやるとシミュレーションできます。非線形システムの運動方程式は下記のような関数の形で定義してください。
+
+```Python
+# 非線形システムの定義
+def nonlinear_system(x, u):
+    """
+    非線形システムの運動方程式
+    x : 状態ベクトル
+    u : 制御入力
+    """
+    x1, x2 = x
+    dx1 = x2
+    dx2 = -alpha * x2 - beta * np.sign(x1) + gamma * u
+    return np.array([dx1, dx2])  # 1次元配列として返す
+```
+
+定常カルマンフィルタを動作させたい場合は84行目のコメントアウトを外し、85行目をコメントアウトして下さい。極配置法により設計したオブザーバを動作させたい場合はその逆です。
+
+シミュレーション結果をCSVで保存したい場合は136行目のコメントアウトを外してください。
+
+### ctrl_utils.py
+
+Qiitaに記述した関数は大体この中に記述されています。
+
+### sim_utils.py
+
+私が普段使いする便利そうな関数をまとめたライブラリです。
